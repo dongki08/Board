@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Data
 @Entity
-public class BoardCmt extends BaseEntity{
-
+@Data
+public class BoardCmt extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "BIGINT UNSIGNED")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long icmt;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "iboard", nullable = false)
     private Board board;
@@ -26,5 +24,4 @@ public class BoardCmt extends BaseEntity{
 
     @Column(length = 100, nullable = false)
     private String pw;
-
 }

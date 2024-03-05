@@ -5,8 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 
+@EnableJpaRepositories
 @EnableJpaAuditing
 @ConfigurationPropertiesScan
 @SpringBootApplication
@@ -18,6 +20,8 @@ public class BoardApplication {
 
 	@Bean
 	public PageableHandlerMethodArgumentResolverCustomizer customizer() {
-		return p ->  p.setOneIndexedParameters(true);
+		return p -> p.setOneIndexedParameters(true);
 	}
+
+
 }

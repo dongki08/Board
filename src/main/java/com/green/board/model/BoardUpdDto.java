@@ -1,6 +1,5 @@
 package com.green.board.model;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,5 @@
 package com.green.board;
 
-import com.green.board.entity.Board;
 import com.green.board.entity.BoardCmt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

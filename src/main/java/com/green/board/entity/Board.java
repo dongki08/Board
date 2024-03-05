@@ -2,28 +2,25 @@ package com.green.board.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @Entity
-public class Board extends BaseEntity{
-
+@Data
+public class Board extends BaseEntity {
     @JsonIgnore
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "BIGINT UNSIGNED")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long iboard;
 
     @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String ctnt;
 
     @Column(length = 10, nullable = false)
@@ -32,8 +29,10 @@ public class Board extends BaseEntity{
     @Column(length = 100, nullable = false)
     private String pw;
 
+    //양방향, cmt의 정보를 알 수 있게끔.
     @JsonIgnore
     @ToString.Exclude
     @OneToMany(mappedBy = "board")
-    private List<BoardCmt> boardCmtList = new ArrayList<>();
+    private List<BoardCmt> boardCmts = new ArrayList();
+
 }
