@@ -10,10 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,9 +49,42 @@ public class BoardService {
         return boardCmt.getIcmt();
     }
 
-    public List<BoardSelVo> getBoardList(Pageable pageable) {
+    @Transactional
+    public List<BoardSelVo> getBoardList(@PageableDefault(sort = "iboard", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Board> list = boardrepository.findAll(pageable);
-        return null;
+        List<BoardSelVo> result1 = new ArrayList<>();
+        for(Board item : list.getContent()) {
+            result1.add(BoardSelVo.builder()
+                    .iboard(item.getIboard())
+                    .title(item.getTitle())
+                    .ctnt(item.getCtnt())
+                    .writer(item.getWriter())
+                    .createdAt(item.getCreatedAt())
+                    .build());
+        }
+
+        List<BoardSelVo> result2 = list.get().map(item -> BoardSelVo.builder()
+                        .iboard(item.getIboard())
+                        .title(item.getTitle())
+                        .ctnt(item.getCtnt())
+                        .writer(item.getWriter())
+                        .createdAt(item.getCreatedAt())
+                        .build())
+                        .collect(Collectors.toList());
+
+//        return result1;
+        //2 Custom Query Method
+        List<Board> list2 = boardrepository.findAllByOrOrderByIboardDesc(pageable);
+        List<BoardSelVo> result3 = list2.stream().map(item -> BoardSelVo.builder()
+                        .iboard(item.getIboard())
+                        .title(item.getTitle())
+                        .ctnt(item.getCtnt())
+                        .writer(item.getWriter())
+                        .createdAt(item.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+
+        return result3;
     }
 
     @Transactional
